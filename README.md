@@ -4,88 +4,52 @@ Este proyecto es un **sistema legal-tech** desarrollado con **Next.js 13 (App Ro
 
 ---
 
-## 📂 Estructura del proyecto
-
+📂 Estructura del proyecto
 frontend-casos/
-├── public/
-│ └── (imágenes, favicons)
+├── public/                  # Archivos estáticos (imágenes, favicons)
 │
 ├── src/
-│ ├── app/
-│ │ ├── (auth)/
-│ │ │ ├── login/
-│ │ │ │ └── page.tsx # Página de login
-│ │ │ └── layout.tsx # Layout para auth (sin navbar)
-│ │ │
-│ │ ├── (dashboard)/
-│ │ │ ├── layout.tsx # Layout con navbar y sidebar
-│ │ │ ├── dashboard/
-│ │ │ │ └── page.tsx # Home después de login
-│ │ │ └── casos/
-│ │ │ ├── page.tsx # Lista de casos
-│ │ │ ├── nuevo/
-│ │ │ │ └── page.tsx # Crear caso
-│ │ │ └── [id]/
-│ │ │ └── page.tsx # Vista de un caso (preview)
-│ │ │
-│ │ ├── layout.tsx # Root layout
-│ │ ├── page.tsx # Landing page
-│ │ └── globals.css # Estilos globales
-│ │
-│ ├── components/
-│ │ ├── ui/ # Componentes reutilizables
-│ │ │ ├── Button.tsx
-│ │ │ ├── Input.tsx
-│ │ │ ├── Card.tsx
-│ │ │ ├── Modal.tsx
-│ │ │ ├── Table.tsx
-│ │ │ ├── LoadingSpinner.tsx
-│ │ │ └── Toast.tsx
-│ │ │
-│ │ ├── auth/ # Componentes de autenticación
-│ │ │ ├── LoginForm.tsx
-│ │ │ └── ProtectedRoute.tsx
-│ │ │
-│ │ ├── casos/ # Componentes de casos
-│ │ │ ├── CasoForm.tsx
-│ │ │ ├── CasosTable.tsx
-│ │ │ ├── CasoCard.tsx
-│ │ │ └── DeleteCasoModal.tsx
-│ │ │
-│ │ └── layout/ # Componentes de layout
-│ │ ├── Navbar.tsx
-│ │ ├── Sidebar.tsx
-│ │ └── Footer.tsx
-│ │
-│ ├── lib/
-│ │ ├── api/
-│ │ │ ├── axios.ts # Configuración de Axios
-│ │ │ ├── auth.api.ts # Endpoints de autenticación
-│ │ │ └── casos.api.ts # Endpoints de casos
-│ │ │
-│ │ ├── auth/
-│ │ │ ├── authContext.tsx # Contexto de autenticación
-│ │ │ └── authHelpers.ts # Helpers (getToken, logout, etc.)
-│ │ │
-│ │ └── utils/
-│ │ ├── validators.ts # Validaciones de formularios
-│ │ └── formatters.ts # Formato de fechas, strings, etc.
-│ │
-│ ├── hooks/
-│ │ ├── useAuth.ts # Hook de autenticación
-│ │ ├── useCasos.ts # Hook para CRUD de casos
-│ │ └── useToast.ts # Hook para notificaciones
-│ │
-│ ├── types/
-│ │ ├── auth.types.ts # Tipos de autenticación
-│ │ ├── caso.types.ts # Tipos de casos
-│ │ └── api.types.ts # Tipos de respuestas API
-│ │
-│ └── middleware.ts # Middleware de Next.js (protección de rutas)
+│   ├── app/                 # Rutas de la aplicación (App Router)
+│   │   ├── (auth)/          # Rutas de autenticación
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx     # Página de login
+│   │   │   └── layout.tsx       # Layout sin navbar
+│   │   │
+│   │   ├── (dashboard)/     # Rutas protegidas del dashboard
+│   │   │   ├── layout.tsx       # Layout con navbar y sidebar
+│   │   │   ├── dashboard/
+│   │   │   │   └── page.tsx     # Página principal del dashboard
+│   │   │   └── casos/
+│   │   │       ├── page.tsx       # Lista de casos
+│   │   │       ├── nuevo/
+│   │   │       │   └── page.tsx   # Crear un caso
+│   │   │       └── [id]/
+│   │   │           ├── page.tsx        # Vista de un caso (preview)
+│   │   │           └── editar/
+│   │   │               └── page.tsx   # Editar un caso
+│   │   │
+│   │   ├── layout.tsx       # Root layout
+│   │   ├── page.tsx         # Landing page
+│   │   └── globals.css      # Estilos globales
+│   │
+│   ├── components/          # Componentes reutilizables
+│   │   ├── ui/              # Componentes genéricos (Botones, Inputs, Modals)
+│   │   ├── auth/            # Componentes de autenticación (LoginForm, ProtectedRoute)
+│   │   ├── casos/           # Componentes específicos de casos (CasosTable, CasoForm)
+│   │   └── layout/          # Navbar, Sidebar, Footer
+│   │
+│   ├── lib/                 # Lógica de negocio y utilidades
+│   │   ├── api/             # Conexión con la API (axios, endpoints auth/casos)
+│   │   ├── auth/            # Contexto de autenticación y helpers
+│   │   └── utils/           # Validadores, formateadores, helpers generales
+│   │
+│   ├── hooks/               # Custom hooks (useAuth, useCasos, useToast)
+│   ├── types/               # Tipos TypeScript
+│   └── middleware.ts        # Middleware para proteger rutas
 │
-├── .env.local # Variables de entorno
-├── .eslintrc.json
-├── next.config.js
+├── .env.local               # Variables de entorno
+├── .eslintrc.json           # Configuración de ESLint
+├── next.config.js           # Configuración de Next.js
 ├── package.json
 ├── tailwind.config.ts
 ├── tsconfig.json
