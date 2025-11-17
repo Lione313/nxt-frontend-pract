@@ -2,62 +2,6 @@
 
 Este proyecto es un **sistema legal-tech** desarrollado con **Next.js 13 (App Router)**, **TypeScript** y **TailwindCSS**. Permite la gestión de **casos legales o expedientes**, con autenticación, CRUD de casos y visualización de información.
 
----
-
-📂 Estructura del proyecto
-frontend-casos/
-├── public/                  # Archivos estáticos (imágenes, favicons)
-│
-├── src/
-│   ├── app/                 # Rutas de la aplicación (App Router)
-│   │   ├── (auth)/          # Rutas de autenticación
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx     # Página de login
-│   │   │   └── layout.tsx       # Layout sin navbar
-│   │   │
-│   │   ├── (dashboard)/     # Rutas protegidas del dashboard
-│   │   │   ├── layout.tsx       # Layout con navbar y sidebar
-│   │   │   ├── dashboard/
-│   │   │   │   └── page.tsx     # Página principal del dashboard
-│   │   │   └── casos/
-│   │   │       ├── page.tsx       # Lista de casos
-│   │   │       ├── nuevo/
-│   │   │       │   └── page.tsx   # Crear un caso
-│   │   │       └── [id]/
-│   │   │           ├── page.tsx        # Vista de un caso (preview)
-│   │   │           └── editar/
-│   │   │               └── page.tsx   # Editar un caso
-│   │   │
-│   │   ├── layout.tsx       # Root layout
-│   │   ├── page.tsx         # Landing page
-│   │   └── globals.css      # Estilos globales
-│   │
-│   ├── components/          # Componentes reutilizables
-│   │   ├── ui/              # Componentes genéricos (Botones, Inputs, Modals)
-│   │   ├── auth/            # Componentes de autenticación (LoginForm, ProtectedRoute)
-│   │   ├── casos/           # Componentes específicos de casos (CasosTable, CasoForm)
-│   │   └── layout/          # Navbar, Sidebar, Footer
-│   │
-│   ├── lib/                 # Lógica de negocio y utilidades
-│   │   ├── api/             # Conexión con la API (axios, endpoints auth/casos)
-│   │   ├── auth/            # Contexto de autenticación y helpers
-│   │   └── utils/           # Validadores, formateadores, helpers generales
-│   │
-│   ├── hooks/               # Custom hooks (useAuth, useCasos, useToast)
-│   ├── types/               # Tipos TypeScript
-│   └── middleware.ts        # Middleware para proteger rutas
-│
-├── .env.local               # Variables de entorno
-├── .eslintrc.json           # Configuración de ESLint
-├── next.config.js           # Configuración de Next.js
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md
-
-
-
----
 
 ## 🛠 Tecnologías y librerías
 
