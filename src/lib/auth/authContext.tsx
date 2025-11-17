@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { loginUser, registerUser } from "@/lib/api/auth.api";
 import { setToken, getToken, removeToken } from "./authHelpers";
 import { AuthContextType, AuthCredentials, User } from "@/types/auth.types";
+import {jwtDecode} from "jwt-decode";
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -14,14 +15,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const storedToken = getToken();
-    if (storedToken) {
-      setTokenState(storedToken);
-      setUser({ id: "", username: "Usuario" });
+ useEffect(() => {
+  const storedToken = getToken();
+  if (storedToken) {
+    setTokenState(storedToken);
+
+    try {
+      const decoded: { username: string; id?: string } = jwtDecode(storedToken);
+      setUser({
+        id: decoded.id || "",
+        username: decoded.username,
+      });
+    } catch (error) {
+      console.error("Token inválido", error);
+      setUser(null);
     }
-    setIsLoading(false);
-  }, []);
+  }
+  setIsLoading(false);
+}, []);
 
   const login = async (credentials: AuthCredentials) => {
     try {

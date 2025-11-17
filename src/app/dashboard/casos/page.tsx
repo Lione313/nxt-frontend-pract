@@ -11,69 +11,94 @@ import { FilePlus, FolderOpen } from "lucide-react";
 
 export default function CasosPage() {
   const [page, setPage] = useState(1);
-
-  // ⬅️ AHORA INCLUIMOS refetch
   const { casos, isLoading, lastPage, refetch } = useCasos(page);
 
   if (isLoading) {
     return (
-      <div className="flex h-[70vh] items-center justify-center">
+      <div className="flex h-full items-center justify-center">
         <LoadingSpinner size="lg" text="Cargando expedientes..." />
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 animate-fadeIn">
-      
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Expedientes</h1>
-          <p className="text-gray-600 mt-1">Gestión y control de casos legales.</p>
-        </div>
+    // Contenedor principal que ocupa toda la altura disponible
+    <div className="h-full flex flex-col overflow-hidden">
+      {/* HEADER - Fijo arriba */}
+      <div className="flex-none px-4 sm:px-6 lg:px-8 py-4 sm:py-6 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate">
+                Expedientes
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">
+                Gestión y control de casos legales.
+              </p>
+            </div>
 
-        <Link href="/dashboard/casos/nuevo">
-          <Button variant="primary" className="flex items-center gap-2 px-4 py-2">
-            <FilePlus className="w-5 h-5" />
-            Crear expediente
-          </Button>
-        </Link>
+            <div className="flex-shrink-0">
+              <Link href="/dashboard/casos/nuevo" className="block">
+                <Button 
+                  variant="primary" 
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 shadow-lg hover:shadow-xl transition-all"
+                >
+                  <FilePlus className="w-5 h-5" />
+                  <span>Crear expediente</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* CONTENT */}
+      {/* CONTENT - Con flex para distribución vertical */}
       {casos.length > 0 ? (
-        <>
-          <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100 overflow-x-auto">
-            
-            {/* 🔥 Ahora se pasa refresh */}
-            <CasosTable casos={casos} refresh={refetch} />
-          </div>
+        <div className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-hidden">
+          <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0">
+            {/* Tabla - Crece para ocupar el espacio disponible */}
+            <div className="flex-1 bg-white shadow-md rounded-xl border border-gray-100 overflow-hidden min-h-0">
+              <div className="h-full p-4 sm:p-6 flex flex-col overflow-hidden">
+                <CasosTable casos={casos} refresh={refetch} />
+              </div>
+            </div>
 
-          <div className="mt-6">
-            <Pagination
-              page={page}
-              lastPage={lastPage}
-              onPageChange={setPage}
-            />
+            {/* Paginación - Fija abajo */}
+            <div className="flex-none pt-4 sm:pt-6">
+              <Pagination
+                page={page}
+                lastPage={lastPage}
+                onPageChange={setPage}
+              />
+            </div>
           </div>
-        </>
+        </div>
       ) : (
-        <div className="flex flex-col items-center justify-center text-center mt-20">
-          <FolderOpen className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-          <h2 className="text-xl font-semibold text-gray-700">
-            No hay expedientes registrados
-          </h2>
-          <p className="text-gray-500 mt-2 mb-6">
-            Empieza creando tu primer caso.
-          </p>
+        /* Estado vacío - Centrado en el espacio disponible */
+        <div className="flex-1 flex items-center justify-center px-4">
+          <div className="text-center max-w-md">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FolderOpen className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
+            </div>
+            
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+              No hay expedientes registrados
+            </h2>
+            
+            <p className="text-sm sm:text-base text-gray-600 mb-8">
+              Empieza creando tu primer caso para gestionar tus expedientes legales.
+            </p>
 
-          <Link href="/dashboard/casos/nuevo">
-            <Button variant="primary" className="flex items-center gap-2 px-4 py-2">
-              <FilePlus className="w-5 h-5" />
-              Crear expediente
-            </Button>
-          </Link>
+            <Link href="/dashboard/casos/nuevo" className="block">
+              <Button 
+                variant="primary" 
+                className="w-full sm:w-auto mx-auto flex items-center justify-center gap-2 px-6 py-3 shadow-lg hover:shadow-xl transition-all"
+              >
+                <FilePlus className="w-5 h-5" />
+                <span>Crear primer expediente</span>
+              </Button>
+            </Link>
+          </div>
         </div>
       )}
     </div>

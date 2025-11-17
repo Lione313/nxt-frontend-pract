@@ -10,26 +10,22 @@ import DeleteCasoModal from "@/components/casos/DeleteCasoModal";
 
 interface CasosTableProps {
   casos: Caso[];
-  refresh?: () => void; // Para recargar la lista tras eliminar
+  refresh?: () => void;
 }
 
 export const CasosTable: React.FC<CasosTableProps> = ({ casos, refresh }) => {
   const router = useRouter();
 
-  // Modal states
   const [openDelete, setOpenDelete] = React.useState(false);
   const [casoToDelete, setCasoToDelete] = React.useState<Caso | null>(null);
 
-  // Abrir modal
   const handleDelete = (caso: Caso) => {
     setCasoToDelete(caso);
     setOpenDelete(true);
   };
 
-  // Confirmar eliminación
   const confirmDelete = async () => {
     if (!casoToDelete) return;
-
     try {
       await deleteCaso(casoToDelete.id);
       refresh?.();
@@ -41,7 +37,6 @@ export const CasosTable: React.FC<CasosTableProps> = ({ casos, refresh }) => {
     }
   };
 
-  // --- ESTILO DEL ESTADO ---
   const estadoBadge = (estado: string) => {
     const colors: Record<string, string> = {
       Abierto: "bg-green-100 text-green-700",
@@ -50,7 +45,9 @@ export const CasosTable: React.FC<CasosTableProps> = ({ casos, refresh }) => {
     };
 
     return (
-      <span className={`px-3 py-1 rounded-full text-xs font-medium ${colors[estado]}`}>
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-medium ${colors[estado]}`}
+      >
         {estado}
       </span>
     );
@@ -58,74 +55,74 @@ export const CasosTable: React.FC<CasosTableProps> = ({ casos, refresh }) => {
 
   return (
     <>
-      <div className="overflow-x-auto bg-white rounded-xl shadow border border-gray-100">
-        <table className="min-w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nombre</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Descripción</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Estado</th>
-              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">Acciones</th>
-            </tr>
-          </thead>
+     <div className="bg-white shadow-md rounded-xl border border-gray-100">
+  {/* Contenedor con altura fija y scroll */}
+  <div className="max-h-[500px] overflow-y-auto">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50 sticky top-0 z-10">
+        <tr>
+          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+            Nombre
+          </th>
+          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+            Descripción
+          </th>
+          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+            Estado
+          </th>
+          <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
+            Acciones
+          </th>
+        </tr>
+      </thead>
 
-          <tbody className="divide-y divide-gray-200">
-            {casos.map((caso) => (
-              <tr key={caso.id} className="hover:bg-gray-50 transition">
-                
-                {/* Nombre */}
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                  {caso.nombre}
-                </td>
+      <tbody className="divide-y divide-gray-200">
+        {casos.map((caso) => (
+          <tr key={caso.id} className="hover:bg-gray-50 transition">
+            {/* Nombre */}
+            <td className="px-4 py-3 text-sm font-medium text-gray-900">{caso.nombre}</td>
 
-                {/* Descripción */}
-                <td className="px-6 py-4 text-sm text-gray-700">
-                  {caso.descripcion}
-                </td>
+            {/* Descripción */}
+            <td className="px-4 py-3 text-sm text-gray-700 truncate max-w-xs">{caso.descripcion}</td>
 
-                {/* Estado */}
-                <td className="px-6 py-4 text-sm">
-                  {estadoBadge(caso.estado)}
-                </td>
+            {/* Estado */}
+            <td className="px-4 py-3 text-sm">{estadoBadge(caso.estado)}</td>
 
-                {/* Acciones */}
-                <td className="px-6 py-4 text-right text-sm space-x-2 flex justify-end">
+            {/* Acciones */}
+            <td className="px-4 py-3 text-sm">
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => router.push(`/dashboard/casos/${caso.id}`)}
+                  className="flex items-center gap-1 px-2 py-1 text-xs"
+                >
+                  <Eye className="w-4 h-4" /> Ver
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => router.push(`/dashboard/casos/${caso.id}/editar`)}
+                  className="flex items-center gap-1 px-2 py-1 text-xs"
+                >
+                  <Pencil className="w-4 h-4" /> Editar
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(caso)}
+                  className="flex items-center gap-1 px-2 py-1 text-xs"
+                >
+                  <Trash2 className="w-4 h-4" /> Eliminar
+                </Button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
 
-                  {/* Ver */}
-                  <Button
-                    variant="secondary"
-                    onClick={() => router.push(`/dashboard/casos/${caso.id}`)}
-                    className="flex items-center gap-1"
-                  >
-                    <Eye className="w-4 h-4" /> Ver
-                  </Button>
 
-                  {/* Editar */}
-                  <Button
-                    variant="secondary"
-                    onClick={() => router.push(`/dashboard/casos/${caso.id}/editar`)}
-                    className="flex items-center gap-1"
-                  >
-                    <Pencil className="w-4 h-4" /> Editar
-                  </Button>
-
-                  {/* Eliminar */}
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDelete(caso)}
-                    className="flex items-center gap-1"
-                  >
-                    <Trash2 className="w-4 h-4" /> Eliminar
-                  </Button>
-
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* MODAL DE CONFIRMACIÓN */}
+      {/* Modal de eliminación */}
       <DeleteCasoModal
         open={openDelete}
         onClose={() => setOpenDelete(false)}

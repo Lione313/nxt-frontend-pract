@@ -30,7 +30,7 @@ export default function DashboardLayoutHome({ children }: { children: React.Reac
 
       <div className="flex-1 flex flex-col">
 
-        <Navbar username={user?.username} onLogout={logout} />
+      <Navbar username={user?.username} onLogout={logout} />
 
         <main className="flex-1 p-6 pt-20">
           {children}
